@@ -1,20 +1,36 @@
-const mysql = require("mysql");
-
-var connect = mysql.createPool({
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: 'Rlatkdwns84',
-  database: 'burger_db',
-  
-});
-
-connect.connect((err) => {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-  console.log("connected as id " + connect.threadId);
-});
-
-module.exports = connect;
+const mysql = require( 'mysql' );
+console.log("JAWS INFO: ", process.env.JAWSDB_URL)
+class Database {
+    constructor( config ) {
+        this.connection = mysql.createConnection( config );
+    }
+    query( sql, args=[] ) {
+        return new Promise( ( resolve, reject ) => {
+            this.connection.query( sql, args, ( err, rows ) => {
+                if ( err )
+                    return reject( err );
+                resolve( rows );
+            } );
+        } );
+    }
+    close() {
+        return new Promise( ( resolve, reject ) => {
+            this.connection.end( err => {
+                if ( err )
+                    return reject( err );
+                resolve();
+            } );
+        } );
+    }
+  }var db;
+if (process.env.JAWSDB_URL) {
+    db = new Database(process.env.JAWSDB_URL);
+} else {
+    db = new Database({
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "Rlatkdwns84",
+        database: "burgers_db"
+      });
+}module.exports = db;

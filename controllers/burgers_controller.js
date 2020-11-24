@@ -38,7 +38,7 @@ router.get("/", (req, res) => {
   });
   router.delete("/api/burgers/:id", (req, res) => {
     let condition = "id = " + req.params.id;
-  
+    console.log("deleted burger")
     burger.deleteOne(condition, (result) => {
       if (result.changedRows === 0) {
         return res.status(404).end();

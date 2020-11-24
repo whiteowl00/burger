@@ -1,4 +1,4 @@
-let connect = require("./connection");
+let connection = require("../config/connection");
 
 const createQmarks = (input) => {
   let array = [];
@@ -26,7 +26,7 @@ let orm = {
   selectAll: (table, cb) => {
     let query = "SELECT * FROM " + table + ";";
 
-    connect.query(query, function (err, res) {
+    connection.query(query, function (err, res) {
       if (err) {
         throw err;
       }
@@ -45,7 +45,7 @@ let orm = {
       ") ";
 
     console.log(query);
-    connect.query(query, vals, function (err, res) {
+    connection.query(query, vals, function (err, res) {
       if (err) throw err;
       cb(res);
     });
@@ -61,7 +61,7 @@ let orm = {
 
     console.log(query);
 
-    connect.query(query, function (err, res) {
+    connection.query(query, function (err, res) {
       if (err)  throw err;
       cb(res);
     });
@@ -70,7 +70,7 @@ let orm = {
     let query = "DELETE FROM " + table + " WHERE " + condition;
     console.log(query);
 
-    connect.query(query, function (err, res) {
+    connection.query(query, function (err, res) {
       if (err) throw err;
       cb(res);
     });
