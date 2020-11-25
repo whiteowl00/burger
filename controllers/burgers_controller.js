@@ -13,26 +13,28 @@ router.get("/", (req, res) => {
   });
 
   router.post("/api/burgers", (req, res) => {
+    console.log( ` .. [POST] adding burger: ${req.body.burger_name} // ${req.body.devoured}` )
+
     burger.insertOne(
       ["burger_name", "devoured"],
       [req.body.burger_name, req.body.devoured],
       function (result) {
         // Send back the ID of new burger
-        res.json({ id: result.insertId });
+        res.send({ id: result.insertId });
       }
     );
+    setTimeout( function(){ res.send({ message: "Added burger" }), 300 });
   });
+
   router.put("/api/burgers/:id", (req, res) => {
     let condition = "id = " + req.params.id;
 
-    console.log("condition", condition);
-    burger.updateOne({ devoured: req.body.devoured }, condition, function (
-      result
-    ) {
+    burger.updateOne({ devoured: req.body.devoured }, condition, 
+      function( result ) {
       if (result.changedRows === 0) {
-        return res.status(404).end();
+        return res.status(404).send({ message: 'Burger not found'});
       } else {
-        res.status(200).end();
+        res.status(200).send({ message: 'Burger devoured!'});
       }
     });
   });
@@ -40,11 +42,8 @@ router.get("/", (req, res) => {
     let condition = "id = " + req.params.id;
     console.log("deleted burger")
     burger.deleteOne(condition, (result) => {
-      if (result.changedRows === 0) {
-        return res.status(404).end();
-      } else {
-        res.status(200).end();
-      }
+      // deleted
+      res.status(200).send({ message: 'Burger deleted'});
     });
   });
 });

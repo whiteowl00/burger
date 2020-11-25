@@ -44,8 +44,16 @@ let orm = {
       createQmarks(vals.length) +
       ") ";
 
-    console.log(query);
+    // connection.query('INSERT INTO burgers SET (burger_name,devoured) VALUES (?,?)', [Date.now(),0], function (error, results, fields) {
+    //     if (error) throw error;
+    //     console.log(`[Fake INSERT] burdgers: ${results.insertId}`);
+    // });
+
+      
+    console.log(`[insertOne] called, query: ${query}` );
+    
     connection.query(query, vals, function (err, res) {
+      console.log( `[insertOne] result`, err, res )
       if (err) throw err;
       cb(res);
     });

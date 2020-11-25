@@ -29,6 +29,12 @@
     {{{body}}}
 
     <script>
+        function pageReload(){
+            console.log( `---- RELOADING PAGE -----` )
+            //location.reload();
+            window.location.href = '/?t='+Date.now();
+        }
+
         $(function() {
             $(".create-form").on("submit", function(event) {
             event.preventDefault();
@@ -45,7 +51,7 @@
                 data: newBurger
             }).then(function() {
                 console.log("Added new burger");
-                location.reload();
+                pageReload();
             });
             });
         
@@ -60,26 +66,24 @@
             $.ajax("/api/burgers/" + id, {
                 type: "PUT",
                 data: devouredState
-            }).then(function() {
+            }).then( function() {
                 console.log("Burger devoured");
-                location.reload();
+                pageReload();
             });
             });
         
-            $("#trashbutton").on("click", function(event) {
+            $(".trashburger").on("click", function(event) {
             event.preventDefault();
-            console.log("click");
+            console.log("[trashbutton] clicked");
             let id = $(this).data("id");
             // Send the DELETE request.
             $.ajax({
                 type: "DELETE",
                 url: "/api/burgers/" + id
-            }).then(
-                function(){
+            }).then( function(){
                 console.log("burger deleted");
-                window.location.href = window.location.href + '?&time='+Date.now();
-                }                
-                );
+                pageReload();
+                });
             });
         });
   

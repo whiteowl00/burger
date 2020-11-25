@@ -1,5 +1,5 @@
 const mysql = require( 'mysql' );
-console.log("JAWS INFO: ", process.env.JAWSDB_URL)
+
 class Database {
     constructor( config ) {
         this.connection = mysql.createConnection( config );
@@ -22,7 +22,10 @@ class Database {
             } );
         } );
     }
-  }var db;
+}
+
+console.log("JAWS INFO: ", process.env.JAWSDB_URL)
+var db;
 if (process.env.JAWSDB_URL) {
     db = new Database(process.env.JAWSDB_URL);
 } else {
@@ -33,4 +36,6 @@ if (process.env.JAWSDB_URL) {
         password: "Rlatkdwns84",
         database: "burgers_db"
       });
-}module.exports = db;
+}
+
+module.exports = db;
